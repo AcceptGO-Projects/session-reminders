@@ -1,3 +1,4 @@
+from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.repositories.course_repository import CourseRepository
 from app.schemas.course import CourseCreate, CourseUpdate, Course
@@ -16,6 +17,12 @@ class CourseService:
         if not db_course:
             raise ValueError("Course not found")
         return Course.model_validate(db_course, from_attributes=True)
+    
+    async def get_courses(self) -> List[Course]:
+        db_courses = await self.course_repo.get_all()
+        if not db_courses:
+            raise ValueError("there are no courses yet")
+        return [Course.model_validate(db_course, from_attributes=True) for db_course in db_courses]
 
     async def update_course(self, course_id: int, course_update: CourseUpdate) -> Course:
         db_course = await self.course_repo.get(course_id)

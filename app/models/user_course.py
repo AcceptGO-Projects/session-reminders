@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Integer, ForeignKey, Table
+from sqlalchemy import Column, Integer, ForeignKey
+from sqlalchemy.orm import relationship
 from app.config.data_source import Base
 
-user_courses = Table(
-    'user_courses', Base.metadata,
-    Column('user_id', Integer, ForeignKey('users.id'), primary_key=True),
-    Column('course_id', Integer, ForeignKey('courses.id'), primary_key=True)
-)
+class UserCourse(Base):
+    __tablename__ = 'user_courses'
+    user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    course_id = Column(Integer, ForeignKey('courses.id'), primary_key=True)

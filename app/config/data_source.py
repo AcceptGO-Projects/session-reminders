@@ -6,7 +6,7 @@ from app.config.settings import settings
 
 Base = declarative_base()
 
-engine = create_async_engine(settings.database_url, echo=True)
+engine = create_async_engine(settings.database_url)
 SessionLocal = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
 
 async def get_db():

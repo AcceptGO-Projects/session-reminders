@@ -7,9 +7,9 @@ class NotificationManager:
             NotificationType.WHATSAPP: WhatsAppStrategy(),
         }
 
-    def send_notification(self, notification_type: NotificationType, to: str, message: str):
+    async def send_notification(self, notification_type: NotificationType, to: str, message: str):
         strategy = self.strategies.get(notification_type)
         if strategy:
-            strategy.send(to, message)
+            await strategy.send(to, message)
         else:
             raise ValueError("Unsupported notification type")

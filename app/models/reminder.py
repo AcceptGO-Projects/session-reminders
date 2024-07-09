@@ -1,6 +1,8 @@
 # app/models/reminder.py
 from sqlalchemy import Column, Integer, DateTime, ForeignKey, Text, Enum
 from sqlalchemy.orm import relationship
+import pytz
+
 from app.config.data_source import Base
 from app.schemas.reminder import ReminderCategory
 
@@ -13,3 +15,12 @@ class Reminder(Base):
     due_date = Column(DateTime, nullable=False)
     course = relationship("Course", back_populates="reminders")
     user_reminders = relationship("UserReminder", back_populates="reminder")
+
+    def save(self, session):
+        if self.due_date.tzinfo is None:
+            self.due_date = self.due_date.replace(tzinfo=pytz.utc)
+        else:
+            self.due_date = self.due_date.astimezone(pytz.utc)
+        session.add(self)
+        session.commit()
+        session.refresh(self)

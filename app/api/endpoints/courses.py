@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.schemas.course import CourseCreate, CourseUpdate, Course
 from app.services.course_service import CourseService
 from app.config.data_source import get_db
+from typing import List
 
 router = APIRouter()
 
@@ -15,6 +16,11 @@ async def create_course(course: CourseCreate, db: AsyncSession = Depends(get_db)
 async def read_course(course_id: int, db: AsyncSession = Depends(get_db)):
     course_service = CourseService(db)
     return await course_service.get_course(course_id)
+
+@router.get("/", response_model=List[Course], summary="Get all courses", description="Retrieve all courses.")
+async def read_courses( db: AsyncSession = Depends(get_db)):
+    course_service = CourseService(db)
+    return await course_service.get_courses()
 
 @router.put("/{course_id}", response_model=Course, summary="Update a course", description="Update a course's information.")
 async def update_course(course_id: int, course: CourseUpdate, db: AsyncSession = Depends(get_db)):
