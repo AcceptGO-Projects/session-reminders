@@ -20,7 +20,7 @@ class SchedulerService:
     async def send_reminder(self, user_id: int, reminder_message: str):
         user = await self.user_repository.get(user_id)
         if user:
-            await self.notification_manager.send_notification(NotificationType.WHATSAPP, user.phone, reminder_message)
+            await self.notification_manager.send_notification(NotificationType.WHATSAPP, user.phone, reminder_message.replace('{{name}}',user.first_name))
 
     async def schedule_reminder(self, user_id: int, reminder: Reminder):
         reminder_time = reminder.due_date.replace(tzinfo=timezone.utc)
