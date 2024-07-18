@@ -9,7 +9,7 @@ class ReminderCategory(str, enum.Enum):
 
 class ReminderBase(BaseModel):
     course_id: Annotated[int, Field(ge=1, example=1)]
-    message: Annotated[str, Field(max_length=500, example="This is a reminder message.")]
+    message: Annotated[str, Field(max_length=1500, example="This is a reminder message.")]
     category: ReminderCategory
     due_date: Annotated[datetime, Field(example="2023-12-31T23:59:59")]
     
