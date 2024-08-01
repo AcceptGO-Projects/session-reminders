@@ -1,4 +1,3 @@
-# app/models/reminder.py
 from sqlalchemy import Column, Integer, DateTime, ForeignKey, Text, Enum
 from sqlalchemy.orm import relationship
 import pytz

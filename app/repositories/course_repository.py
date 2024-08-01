@@ -42,7 +42,6 @@ class CourseRepository:
 
     async def register_user(self, user_id: int, course_id: int):
         register = UserCourse(user_id=user_id, course_id=course_id)
-        print('Hola')
         self.db.add(register)
         await self.db.commit()
         return register
